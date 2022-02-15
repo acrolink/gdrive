@@ -26,15 +26,15 @@ func (self *Drive) Share(args ShareArgs) error {
 		Domain:             args.Domain,
 	}
 	
-   call := self.service.Permissions.Create(args.FileId, permission)                                                                                 
+    call := self.service.Permissions.Create(args.FileId, permission)                                                                                 
     if permission.Role == "owner" {                                                                                                                  
         call.TransferOwnership(true)                                                                                                                 
-    }
-	
-	_, err := self.service.Permissions.Create(args.FileId, permission).Do()
-	if err != nil {
-		return fmt.Errorf("Failed to share file: %s", err)
-	}
+    }                                                                                                                                                
+                                                                                                                                                     
+    _, err := call.Do()                                                                                                                              
+    if err != nil {                                                                                                                                  
+        return fmt.Errorf("Failed to share file: %s", err)                                                                                           
+    } 
 
 	fmt.Fprintf(args.Out, "Granted %s permission to %s\n", args.Role, args.Type)
 	return nil
